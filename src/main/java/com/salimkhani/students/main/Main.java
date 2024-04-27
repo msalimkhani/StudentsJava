@@ -32,11 +32,18 @@ public class Main {
 
     }
     private static Student[][] addStudent(Student[][] students, Field[] fields) throws InstanceNotFoundException {
-        Field field = null;
+        //Field field = null;
         Student student = new Student();
         student.StudentId.set(readInputInt());
         student.StudentCode.set(readInputLong());
         // TODO complete addStudent
+        //if(null == students)
+        //{
+        //students = new Student[1][];
+        //students[0] = new Student[1];
+        //students[0][0] = student;
+        //}
+        //more...
         return students;
     }
 
