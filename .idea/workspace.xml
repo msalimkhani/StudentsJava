@@ -4,23 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ec4da6b8-79e1-4929-929d-c7e61467511b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/salimkhani/students/main/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/salimkhani/students/models/Field.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/salimkhani/students/models/Student.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/salimkhani/tools/Property.java" afterDir="false" />
-    </list>
+    <list default="true" id="ec4da6b8-79e1-4929-929d-c7e61467511b" name="Changes" comment="init repo" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -81,14 +65,36 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1714211276037</updated>
-      <workItem from="1714211276040" duration="4232000" />
+      <workItem from="1714211276040" duration="4614000" />
     </task>
+    <task id="LOCAL-00001" summary="init repo">
+      <option name="closed" value="true" />
+      <created>1714215556657</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1714215556657</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="init repo" />
+    <option name="LAST_COMMIT_MESSAGE" value="init repo" />
   </component>
 </project>
