@@ -13,11 +13,29 @@ public class Field {
         fieldIndex = new Property<>();
         fieldName = new Property<>();
     }
-    public static Field search(String fieldName, Field[] fields) throws InstanceNotFoundException {
-        for (int i = 0; i < fields.length; i++) {
-            if(fields[i].fieldName.get().equals(fieldName))
-                return fields[i];
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Field{");
+        sb.append("fieldIndex=").append(fieldIndex.get());
+        sb.append(", fieldName=").append(fieldName.get());
+        sb.append('}');
+        return sb.toString();
+    }
+
+    public static void search(String fieldName, Field[] fields, Field out) throws InstanceNotFoundException {
+        if (fields != null)
+        {
+            for (int i = 0; i < fields.length; i++) {
+                if (fields[i] != null)
+                {
+                    if(fields[i].fieldName.get().equals(fieldName))
+                    {
+                        out =  fields[i];
+                        break;
+                    }
+                }
+            }
         }
-        throw new InstanceNotFoundException("Filed::search: Instance of "+ fieldName + " Not Found!");
     }
 }

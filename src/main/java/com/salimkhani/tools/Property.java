@@ -7,7 +7,7 @@ public class Property <T> {
         if(_t != null)
             return _t;
         else
-            throw new NullPointerException("Property: Null Reference Type!");
+            return null;
     }
     public Property(){};
     public Property(T val)
