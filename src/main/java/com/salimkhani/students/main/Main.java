@@ -15,25 +15,6 @@ public class Main {
         StudentModel model = new StudentModel();
         Init(model);
     }
-    private static void ShowFields(Field[] fields)
-    {
-        System.out.println("===================================================");
-        if (null == fields)
-        {
-            System.out.println("List is Empty!");
-        }
-        else {
-            for (int i = 0; i < fields.length; i++) {
-                if (fields[i] != null)
-                {
-                    System.out.println(fields[i]);
-                }
-                else {
-                    System.out.println("fields["+i+"] = null!");
-                }
-            }
-        }
-    }
     private static void ShowStudents(Student[][] students)
     {
         System.out.println("===================================================");
@@ -58,10 +39,9 @@ public class Main {
 
     }
     private static StudentModel addStudent(StudentModel model) throws InstanceNotFoundException {
-        int index = 0;
         int debug = 0;
+        int index = 0;
         Field field = new Field();
-        Field sf = null;
         boolean isExistingField = false;
         Student student = new Student();
         System.out.print("Enter Student ID: ");
@@ -74,80 +54,60 @@ public class Main {
         student.Grade.set(readInputDouble());
         System.out.print("Enter Student Field: ");
         field.fieldName.set(readInputString());
-        if (model.Fields.get() == null)
-        {
-            model.Fields.set(new Field[1]);
-            debug += 1;
-        }
-        else
-        {
-            model.Fields.set(Arrays.copyOf(model.Fields.get(), model.Fields.get().length+1));
-            debug += 2;
-        }
 
         if (model.Students.get() == null)
         {
+            System.out.println("if 58 -> model.Students.get()="+model.Students.get());
             model.Students.set(new Student[1][]);
             model.Students.get()[0] = new Student[1];
-            debug += 3;
         }
         else
         {
-            debug += 4;
             if (model.Students.get()[model.Students.get().length-1] == null)
             {
-                debug += 5;
+                System.out.println("if 65 -> model.Students.get()[model.Students.get().length-1]="+model.Students.get()[model.Students.get().length-1]);
                 model.Students.get()[model.Students.get().length-1] = new Student[1];
             }
             else
             {
-                debug += 6;
-                sf = new Field();
-                if (model.Fields.get() != null)
+                model.Students.get()[model.getStLength() - 1] = Arrays.copyOf(model.Students.get()[model.getStLength() - 1], model.Students.get()[model.getStLength() - 1].length + 1);
+            }
+            for (int i = 0;i < model.getStLength(); i++)
+            {
+                var sts = model.Students.get()[i];
+                assert sts != null;
+                assert sts[0].StField.get() != null;
+                assert sts[0].StField.get().fieldName.get() != null;
+                if (sts[0].StField.get().fieldName.get().equalsIgnoreCase(field.fieldName.get()))
                 {
-                    debug += 7;
-                    Field.search(field.fieldName.get(), model.Fields.get(), sf);
-                    if(sf.fieldName.get()!= null && sf.fieldIndex.get()!= null)
-                    {
-                        debug += 8;
-                        //field = sf;
-                        index = sf.fieldIndex.get();
-                        field.fieldIndex.set(index);
-                        model.Students.get()[index] = Arrays.copyOf(model.Students.get()[index], model.Students.get()[index].length+1);
-                        isExistingField = true;
-                    }
-                    else {
-                        debug += 9;
-                        index = model.Students.get().length-1;
-                        field.fieldIndex.set(index);
-                        model.Fields.get()[model.Fields.get().length-1] = field;
-                        model.Students.get()[index] = Arrays.copyOf(model.Students.get()[index], model.Students.get()[index].length+1);
-                        isExistingField = false;
-                    }
+                   isExistingField = true;
+                   index = i;
+                   break;
                 }
-                else
-                {
-                    debug += 10;
-                    System.out.println("Error: fields is null!");
-                    System.exit(-1);
+                else {
+                    break;
                 }
+            }
+            System.out.println("isExistingField = " + isExistingField);
+            if (!isExistingField)
+            {
+                System.out.println("isExistingField = " + isExistingField);
+                var arr = model.Students.get();
+                arr = Arrays.copyOf(arr, model.getStLength() + 1);
+                model.Students.set(arr);
             }
         }
-        if (isExistingField == false)
-            index = model.Students.get().length-1;
-        field.fieldIndex.set(index);
         student.StField.set(field);
-        if (model.Students.get() != null && model.Students.get()[model.Students.get().length-1] != null)
+        if (isExistingField)
         {
-            if (isExistingField == true)
-            {
-                model.Students.get()[sf.fieldIndex.get()][model.Students.get()[sf.fieldIndex.get()].length-1] = student;
-            }
-            else
-            {
-                model.Fields.get()[model.Fields.get().length-1] = field;
-                model.Students.get()[model.Students.get().length-1][model.Students.get()[model.Students.get().length-1].length-1] = student;
-            }
+            model.Students.get()[index][model.Students.get()[index].length - 1] = student;
+        }
+        else
+        {
+            System.out.println("line 105 entered!");
+            if (model.Students.get()[model.getStLength()-1] == null)
+                model.Students.get()[model.getStLength()-1] = new Student[1];
+            model.Students.get()[model.getStLength()-1][model.Students.get()[model.getStLength() - 1].length-1] = student;
         }
         return model;
     }
@@ -167,8 +127,7 @@ public class Main {
         String[] messages = {"1.Show Help(This) Page.",
                             "2.Show Students List.",
                             "3.Insert Student.",
-                            "4.Exit.",
-                            "5.ShowFields"};
+                            "4.Exit."};
         while (true)
         {
             if (SIGEXIT)
@@ -192,9 +151,6 @@ public class Main {
                 case 4:
                     SIGEXIT = true;
                     break;
-                case 5:
-                    ShowFields(model.Fields.get());
-                    ShowMenu(model);
                 default:
                     throw new IllegalStateException("Unexpected value: " + input);
             }
