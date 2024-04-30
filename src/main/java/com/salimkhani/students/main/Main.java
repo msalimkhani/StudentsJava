@@ -2,6 +2,7 @@ package com.salimkhani.students.main;
 
 import com.salimkhani.students.models.Field;
 import com.salimkhani.students.models.Student;
+import com.salimkhani.students.models.StudentModel;
 import com.salimkhani.tools.Property;
 
 import javax.management.InstanceNotFoundException;
@@ -11,9 +12,27 @@ import java.util.Scanner;
 public class Main {
     private static boolean SIGEXIT = false;
     public static void main(String[] args) throws InstanceNotFoundException {
-        Student[][] students = null;
-        Field[] fields = null;
-        Init(students, fields);
+        StudentModel model = new StudentModel();
+        Init(model);
+    }
+    private static void ShowFields(Field[] fields)
+    {
+        System.out.println("===================================================");
+        if (null == fields)
+        {
+            System.out.println("List is Empty!");
+        }
+        else {
+            for (int i = 0; i < fields.length; i++) {
+                if (fields[i] != null)
+                {
+                    System.out.println(fields[i]);
+                }
+                else {
+                    System.out.println("fields["+i+"] = null!");
+                }
+            }
+        }
     }
     private static void ShowStudents(Student[][] students)
     {
@@ -38,8 +57,9 @@ public class Main {
         }
 
     }
-    private static Student[][] addStudent(Student[][] students, Field[] fields) throws InstanceNotFoundException {
+    private static StudentModel addStudent(StudentModel model) throws InstanceNotFoundException {
         int index = 0;
+        int debug = 0;
         Field field = new Field();
         Field sf = null;
         boolean isExistingField = false;
@@ -54,90 +74,101 @@ public class Main {
         student.Grade.set(readInputDouble());
         System.out.print("Enter Student Field: ");
         field.fieldName.set(readInputString());
-        if (fields == null)
+        if (model.Fields.get() == null)
         {
-            fields = new Field[1];
+            model.Fields.set(new Field[1]);
+            debug += 1;
         }
         else
         {
-            fields = Arrays.copyOf(fields, fields.length+1);
+            model.Fields.set(Arrays.copyOf(model.Fields.get(), model.Fields.get().length+1));
+            debug += 2;
         }
 
-        if (students == null)
+        if (model.Students.get() == null)
         {
-            students = new Student[1][];
-            students[0] = new Student[1];
+            model.Students.set(new Student[1][]);
+            model.Students.get()[0] = new Student[1];
+            debug += 3;
         }
         else
         {
-            if (students[students.length-1] == null)
+            debug += 4;
+            if (model.Students.get()[model.Students.get().length-1] == null)
             {
-                students[students.length-1] = new Student[1];
+                debug += 5;
+                model.Students.get()[model.Students.get().length-1] = new Student[1];
             }
             else
             {
+                debug += 6;
                 sf = new Field();
-                if (fields != null)
+                if (model.Fields.get() != null)
                 {
-                    Field.search(field.fieldName.get(), fields, sf);
+                    debug += 7;
+                    Field.search(field.fieldName.get(), model.Fields.get(), sf);
                     if(sf.fieldName.get()!= null && sf.fieldIndex.get()!= null)
                     {
+                        debug += 8;
                         //field = sf;
                         index = sf.fieldIndex.get();
                         field.fieldIndex.set(index);
-                        students[index] = Arrays.copyOf(students[index], students[index].length+1);
+                        model.Students.get()[index] = Arrays.copyOf(model.Students.get()[index], model.Students.get()[index].length+1);
                         isExistingField = true;
                     }
                     else {
-                        index = students.length-1;
+                        debug += 9;
+                        index = model.Students.get().length-1;
                         field.fieldIndex.set(index);
-                        fields[fields.length-1] = field;
-                        students[index] = Arrays.copyOf(students[index], students[index].length+1);
+                        model.Fields.get()[model.Fields.get().length-1] = field;
+                        model.Students.get()[index] = Arrays.copyOf(model.Students.get()[index], model.Students.get()[index].length+1);
                         isExistingField = false;
                     }
                 }
                 else
                 {
+                    debug += 10;
                     System.out.println("Error: fields is null!");
                     System.exit(-1);
                 }
             }
         }
         if (isExistingField == false)
-            index = students.length-1;
+            index = model.Students.get().length-1;
         field.fieldIndex.set(index);
         student.StField.set(field);
-        if (students != null && students[students.length-1] != null)
+        if (model.Students.get() != null && model.Students.get()[model.Students.get().length-1] != null)
         {
             if (isExistingField == true)
             {
-                students[sf.fieldIndex.get()][students[sf.fieldIndex.get()].length-1] = student;
+                model.Students.get()[sf.fieldIndex.get()][model.Students.get()[sf.fieldIndex.get()].length-1] = student;
             }
             else
             {
-                fields[fields.length-1] = field;
-                students[students.length-1][students[students.length-1].length-1] = student;
+                model.Fields.get()[model.Fields.get().length-1] = field;
+                model.Students.get()[model.Students.get().length-1][model.Students.get()[model.Students.get().length-1].length-1] = student;
             }
         }
-        return students;
+        return model;
     }
 
 
 
-    private static void Init(Student[][] students, Field[] fields) throws InstanceNotFoundException {
+    private static void Init(StudentModel model) throws InstanceNotFoundException {
         System.out.printf("Students V %d.%d\n", getMajorVer(), getMinorVer());
-        ShowMenu(students, fields);
+        ShowMenu(model);
         sayGoodBye();
     }
     private static void sayGoodBye()
     {
         System.out.println("GoodBye!");
     }
-    private static void ShowMenu(Student[][] students, Field[] fields) throws InstanceNotFoundException {
+    private static void ShowMenu(StudentModel model) throws InstanceNotFoundException {
         String[] messages = {"1.Show Help(This) Page.",
                             "2.Show Students List.",
                             "3.Insert Student.",
-                            "4.Exit."};
+                            "4.Exit.",
+                            "5.ShowFields"};
         while (true)
         {
             if (SIGEXIT)
@@ -150,17 +181,20 @@ public class Main {
             switch (input)
             {
                 case 1:
-                    ShowMenu(students, fields);
+                    ShowMenu(model);
                     break;
                 case 2:
-                    ShowStudents(students);
+                    ShowStudents(model.Students.get());
                     break;
                 case 3:
-                    students = addStudent(students, fields);
-                    ShowMenu(students, fields);
+                    model = addStudent(model);
+                    ShowMenu(model);
                 case 4:
                     SIGEXIT = true;
                     break;
+                case 5:
+                    ShowFields(model.Fields.get());
+                    ShowMenu(model);
                 default:
                     throw new IllegalStateException("Unexpected value: " + input);
             }
